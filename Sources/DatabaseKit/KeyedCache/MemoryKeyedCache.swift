@@ -19,6 +19,11 @@ public final class MemoryKeyedCache: KeyedCache, Service {
     }
 
     /// See `KeyedCache`.
+    public func create<E>(_ key: String, to encodable: E) -> Future<Void> where E : Encodable {
+        return set(key, to: encodable)
+    }
+
+    /// See `KeyedCache`.
     public func get<D>(_ key: String, as decodable: D.Type) -> Future<D?> where D : Decodable {
         lock.lock()
         defer { lock.unlock() }

@@ -22,6 +22,13 @@ extension ConfiguredDatabase: KeyedCacheSupporting where D: KeyedCacheSupporting
     // MARK: Keyed Cache
 
     /// See `KeyedCacheSupporting`.
+    public static func keyedCacheCreate<E>(_ key: String, to encodable: E, on conn: D.Connection) throws -> Future<Void>
+        where E: Encodable
+    {
+        return try D.keyedCacheCreate(key, to: encodable, on: conn)
+    }
+
+    /// See `KeyedCacheSupporting`.
     public static func keyedCacheGet<T>(_ key: String, as decodable: T.Type, on conn: Connection) throws -> Future<T?>
         where T: Decodable
     {

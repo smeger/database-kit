@@ -18,6 +18,13 @@ public final class DatabaseKeyedCache<Database>: KeyedCache, Service
     // MARK: Keyed Cache
 
     /// See `KeyedCache`.
+    public func create<E>(_ key: String, to encodable: E) -> Future<Void> where E : Encodable {
+        return pool.withConnection { conn in
+            return try Database.keyedCacheCreate(key, to: encodable, on: conn)
+        }
+    }
+
+    /// See `KeyedCache`.
     public func get<D>(_ key: String, as decodable: D.Type) -> Future<D?> where D : Decodable {
         return pool.withConnection { conn in
             return try Database.keyedCacheGet(key, as: D.self, on: conn)
