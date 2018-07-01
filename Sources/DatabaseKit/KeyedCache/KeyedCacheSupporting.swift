@@ -1,5 +1,9 @@
 /// A `Database` that supports key-value actions.
 public protocol KeyedCacheSupporting: Database {
+    /// Creates an encodable object with the supplied `key`.
+    static func keyedCacheCreate<E>(_ key: String, to encodable: E, on conn: Self.Connection) throws -> Future<Void>
+        where E: Encodable
+
     /// Gets an instance of decodable type `D` parsed from the value associated with the `key`
     static func keyedCacheGet<D>(_ key: String, as decodable: D.Type, on conn: Self.Connection) throws -> Future<D?>
         where D: Decodable

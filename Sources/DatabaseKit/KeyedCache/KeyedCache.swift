@@ -1,5 +1,16 @@
 /// A key-value cache.
 public protocol KeyedCache {
+    /// Creates an encodable object with the supplied `key`.
+    ///
+    ///     try cache.create("world", forKey: "hello").wait()
+    ///
+    /// - parameters:
+    ///     - key: Cache key to set.
+    ///     - encodable: An `Encodable` item to set.
+    /// - returns: A future that completes when the action finishes. May also contain an error.
+    func create<E>(_ key: String, to encodable: E) -> Future<Void>
+        where E: Encodable
+
     /// Gets an instance of decodable type `D` parsed from the value associated with the `key`
     ///
     ///     let res = cache.get("hello", as: String.self).wait()
